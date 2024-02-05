@@ -1,0 +1,9 @@
+HW1 Overview
+============
+- Explain how you got the solution
+
+- Use Frequency Tables of Ciphertext
+Hint: Dr. "On"
+
+- Have table to map ciphertext to decrypted plaintext
+
