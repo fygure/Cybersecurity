@@ -1,11 +1,68 @@
 import re
+from collections import Counter
 
 def problem1():
     cipher_text = "ROYQWH KQXXJYQ: N LQGNQAQ HDJH FO. VW NX J KQKLQO VZ J XQMOQH MONKQ VOYJWNSJHNVW MJGGQF U.D.J.W.H.V.K., IDVXQ YVJG NX HVHJG IVOGF FVKNWJHNVW. HDQNO UGJW NX HV JMBRNOQ J XRUQOIQJUVW JWF HV DVGF HDQ IVOGF OJWXVK. N JK JZOJNF HDJH IQ FV WVH DJAQ KRMD HNKQ LQZVOQ HDQT XRMMQQF.\nN DJAQ OQMQWHGT NWHQOMQUHQF JW QWMOTUHQF KQXXJYQ (JHHJMDKQWH MNUDQO2.HCH) HDJH IJX XQWH LT FO. VW HV VWQ VZ DNX MVWXUNOJHVOX, HDQ NWZJKVRX KO. LGVIZNQGF. N KJWJYQF HV FNXMVAQO HDJH HDQ KQXXJYQ IJX QWMOTUHQF RXNWY HDQ PJMEJG MNUDQO (XQQ XVROMQ MVFQ), LRH N IJX WVH JLGQ FNXMVAQO HDQ XQMOQH EQT, JWF HDQ MNUDQO XQQKX HV LQ RWLOQJEJLGQ. N JK JZOJNF HDJH FQMOTUHNWY HDNX KQXXJYQ NX HDQ VWGT IJT HV XHVU FO. VW'X VOYJWNSJHNVW.\nUGQJXQ XQWF OQNWZVOMQKQWHX NKKQFNJHQGT! N HONQF HV JMH MJRHNVRXGT, LRH N DJAQ J ZQQGNWY HDJH FO. VW'X DQWMDKQW JOQ VWHV KQ. N FVW'H EWVI DVI GVWY N DJAQ LQZVOQ HDQT FNXMVAQO KT OQJG NFQWHNHT JWF KT XQMOQH DNFNWY UGJ"
     # BEGIN SOLUTION
+    
+    def display_message_frequency(cipher_text):
+        try:
+            # Count the frequency of each letter
+            letter_frequency = Counter(cipher_text)
+            print(letter_frequency)
+            print()
+            print(len(cipher_text))
+
+            total_characters = len(cipher_text)
+
+            # Sort the letter frequency in descending order
+            sorted_frequency = sorted(letter_frequency.items(), key=lambda x: x[1], reverse=True)
+
+            # Print the frequency and percentage of each letter in descending order
+            for letter, count in sorted_frequency:
+                if letter.isalpha():  # Exclude non-alphabetic characters
+                    percentage = (count / total_characters) * 100
+                    print(f"{letter}: {count} ({percentage:.2f}%)")
+
+        except FileNotFoundError:
+            print(f"Error.")
+        
+    def save_decrypted_message(decrypted_message, file_path):
+        with open(file_path, 'w') as file:
+            file.write(decrypted_message)
+
+    def display_message(encrypted_message, decrypted_message):
+        print("Encrypted Message:")
+        print(encrypted_message)
+        print("\nDecrypted Message:")
+        print(decrypted_message)
+    
+    def decrypt(message, decryption_mapping):
+        decrypted_message = ''.join(decryption_mapping.get(char, char) for char in message)
+        return decrypted_message
+    
+    display_message_frequency(cipher_text)
+    decryption_mapping = {}
+    while True:
+        decrypted_message = decrypt(cipher_text, decryption_mapping)
+        display_message(cipher_text, decrypted_message)
+
+        user_input = input("\nEnter a substitution (e.g., 'a=b', 'x=y') or type 'exit' to finish: ").strip()
+
+        if user_input.lower() == 'exit':
+            break
+
+        try:
+            substitution_pair = user_input.split('=')
+            encrypted_char, decrypted_char = substitution_pair[0].strip(), substitution_pair[1].strip()
+            decryption_mapping[encrypted_char] = decrypted_char
+        except (ValueError, IndexError):
+            print("Invalid input. Please provide a valid substitution pair.")
+    
+    save_decrypted_message(decrypted_message, 'decrypted.txt')
+    print("Decrypted message saved to 'decrypted.txt'.")
 
     # END SOLUTION
-    print(decrypted_text)
 
 
 def JACKAL_Decrypt(firstKeyByte, secondKeyByte, cipherText):
@@ -51,7 +108,7 @@ def problem3():
 if __name__ == '__main__':
     print("\n\nProblem 1 \n\n")
     problem1()
-    print("\n\nProblem 2 \n\n")
-    problem1()
-    print("\n\nProblem 3 \n\n")
-    problem3()
+    #print("\n\nProblem 2 \n\n")
+    #problem1()
+    #print("\n\nProblem 3 \n\n")
+    #problem3()
