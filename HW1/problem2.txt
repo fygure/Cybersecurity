@@ -1,0 +1,4 @@
+Decrypted cipher2.txt:
+-----------------------------
+Mr. Blowfield, my associate will deliver the payment to you next Friday at noon. The location of the exchange is 20.893360, -156.438838. I expect you to deliver the plans for the super-weapon in exchange. Do not dare to fail me.
+You should encrypt the plans with one-time-pad to prevent anyone from stealing them. Use the following 11 byte values as the key: {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31} . If the plaintext is longer, then just repeat the key as many times as necessary.

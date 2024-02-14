@@ -44,6 +44,7 @@ def problem1():
             file.write("Decrypted message:\n")
             file.write("-----------------------------\n")
             file.write(decrypted_message)
+        print(decrypted_message)
 
     def display_message(encrypted_message, decrypted_message):
         print("Encrypted Message:")
@@ -104,26 +105,55 @@ def problem2():
     with open("cipher2.txt", "rb") as file:
         cipherText = file.read()
     # BEGIN SOLUTION
-    # plainText = ....
-    print(cipherText)
-    
+    #print(cipherText)
+    for i in range(128):
+        for j in range(128):
+            x = JACKAL_Decrypt(i, j, cipherText)
+            #print(x)
+            if isEnglishText(x):
+                plainText = x
+                    
+                    
+    with open('problem2.txt', 'w') as file:
+            file.write("Decrypted cipher2.txt:\n")
+            file.write("-----------------------------\n")
+            file.write(plainText.decode('utf-8'))
+            
+            
     # END SOLUTION
-    #print(plainText.decode())
+    print(plainText.decode())
+    
 
 
 def problem3():
     with open("cipher3.txt", "rb") as file:
         cipher_text = file.read()
+        
     # BEGIN SOLUTION
+    #look at One Time Pad Solution
+    
 
+    key_values = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
+    #print(len(cipher_text))
+    #print(len((key_values * (len(cipher_text) // len(key_values))))) # Repeat the key values to match the length of the cipher text
+    #print(len((key_values[:len(cipher_text) % len(key_values)]))) # Add extra values needed (remainder)
+    key = bytes(key_values * (len(cipher_text) // len(key_values)) + key_values[:len(cipher_text) % len(key_values)])
+    plainText = bytes([p ^ k for p, k in zip(cipher_text, key)])
+    #print(decrypted_text.decode('utf-8'))
+    
     # END SOLUTION
-    #print(plain_text.decode('utf-8'))
+    with open('problem3.txt', 'w') as file:
+            file.write("Decrypted cipher3.txt:\n")
+            file.write("-----------------------------\n")
+            file.write(plainText.decode('utf-8'))
+    print(plainText.decode('utf-8'))
+    
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print("\n\nProblem 1 \n\n")
     problem1()
-    # print("\n\nProblem 2 \n\n")
-    # problem2()
-    #print("\n\nProblem 3 \n\n")
-    #problem3()
+    print("\n\nProblem 2 \n\n")
+    problem2()
+    print("\n\nProblem 3 \n\n")
+    problem3()
