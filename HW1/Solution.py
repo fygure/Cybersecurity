@@ -116,6 +116,7 @@ def problem2():
                     
     with open('problem2.txt', 'w') as file:
             file.write("Decrypted cipher2.txt:\n")
+            file.write(f"i:{i} j:{j}\n")
             file.write("-----------------------------\n")
             file.write(plainText.decode('utf-8'))
             
