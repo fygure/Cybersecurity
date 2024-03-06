@@ -18,21 +18,23 @@ public class HW2 {
 
   static void P1() throws Exception {
     byte[] cipherBMP = Files.readAllBytes(Paths.get("cipher1.bmp"));
-    
-    // BEGIN SOLUTION
-    byte[] key = new byte[] { 0, 0, 0, 0, 
-                              0, 0, 0, 0, 
-                              0, 0, 0, 0, 
-                              0, 0, 0, 0 };
-    byte[] plainBMP = cipherBMP;    
-    // END SOLUTION
-    
+    byte[] key = new byte[16];
+    for (int i = 0; i < 16; i++) {
+        key[i] = (byte) (i + 1);
+    }
+    byte[] iv = new byte[16];
+    SecretKeySpec keySpec = new SecretKeySpec(key, "AES");
+    IvParameterSpec ivSpec = new IvParameterSpec(iv);
+    Cipher cipher = Cipher.getInstance("AES/CBC/ISO10126Padding");
+    cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+    byte[] plainBMP = cipher.doFinal(cipherBMP);
     Files.write(Paths.get("plain1.bmp"), plainBMP);
   }
 
   static void P2() throws Exception {
-    byte[] cipher = Files.readAllBytes(Paths.get("cipher2.txt"));
+    byte[] cipher = Files.readAllBytes(Paths.get("cipher2.bin"));
     // BEGIN SOLUTION
+    //TODO
     byte[] modifiedCipher = cipher;
     modifiedCipher[0] = cipher[16];
     modifiedCipher[16] = cipher[0];
@@ -93,9 +95,9 @@ public class HW2 {
     try {  
       P1();
       P2();
-      P3();
-      P4();
-      P5();
+      // P3();
+      // P4();
+      // P5();
     } catch (Exception e) {
       e.printStackTrace();
     } 
